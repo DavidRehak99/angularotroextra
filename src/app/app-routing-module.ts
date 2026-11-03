@@ -6,6 +6,8 @@ import { ApiFilesComponent } from './components/api-files-component/api-files-co
 import { UploadComponent } from './components/subir-component/subir-component';
 import { ErrorComponent } from './components/error-component/error-component';
 import { EquipoComponent } from './components/equipo-component/equipo-component';
+import { LoginComponent } from './components/loginComponent/loginComponent';
+import { SubordinadosComponent } from './components/subordinados/subordinados';
 
 const routes: Routes = [
   
@@ -13,6 +15,8 @@ const routes: Routes = [
   { path: 'informes', component: InformesPdfComponent },
   { path: 'cosa', component: UploadComponent },
   { path: 'equipos', component: EquipoComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'subordinados', component: SubordinadosComponent },
   { path: 'error', component: ErrorComponent },
   
   

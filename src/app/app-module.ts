@@ -13,6 +13,10 @@ import { provideToastService } from 'ngx-yet-another-toast-library';
 import { UploadComponent } from './components/subir-component/subir-component';
 import { EquipoComponent } from './components/equipo-component/equipo-component';
 import { ServiceEquipos } from './services/ServiceEquipos';
+import { SubordinadosComponent } from './components/subordinados/subordinados';
+import { LoginComponent } from './components/loginComponent/loginComponent';
+import { ServiceEmpleados } from './services/service.empleados';
+import { authTokenInterceptor } from './interceptors/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -22,14 +26,18 @@ import { ServiceEquipos } from './services/ServiceEquipos';
     ApiFilesComponent,
     UploadComponent,
     EquipoComponent,
+    SubordinadosComponent,
+    LoginComponent
+    
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withInterceptors([errorInterceptor])),
+    provideHttpClient(withInterceptors([authTokenInterceptor,errorInterceptor])),
     FilesService,
     provideToastService(),
-    ServiceEquipos
+    ServiceEquipos,
+    ServiceEmpleados
   ],
   bootstrap: [App],
 })
