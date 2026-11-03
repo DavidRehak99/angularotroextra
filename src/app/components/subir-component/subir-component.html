@@ -1,0 +1,53 @@
+<div class="container mt-4">
+  <h2>Subir Imagen a la API</h2>
+
+ 
+  <div class="mb-3">
+    <label for="fileInput" class="form-label">Selecciona una imagen</label>
+    <input 
+      type="file" 
+      id="fileInput" 
+      class="form-control" 
+      accept="image/*" 
+      (change)="onFileSelected($event)" 
+    />
+  </div>
+
+
+  @if (previewUrl) {
+    <div class="mb-3">
+      <img [src]="previewUrl" alt="Vista previa" class="img-thumbnail" style="max-height: 200px;" />
+    </div>
+  }
+
+
+  <button 
+    class="btn btn-primary" 
+    [disabled]="!selectedFile || isUploading" 
+    (click)="upload()"
+  >
+    @if (isUploading) {
+      <span>Subiendo...</span>
+    } @else {
+      <span>Subir Imagen</span>
+    }
+  </button>
+
+
+  @if (uploadSuccess) {
+    <div class="alert alert-success mt-3" role="alert">
+      <strong>¡Imagen subida con éxito!</strong>
+      <p class="mb-0">La API ha procesado y guardado la imagen correctamente.</p>
+      @if (uploadedFileInfo) {
+        <pre class="mt-2 bg-light p-2 rounded"><code>{{ uploadedFileInfo | json }}</code></pre>
+      }
+    </div>
+  }
+
+
+  @if (errorMessage) {
+    <div class="alert alert-danger mt-3" role="alert">
+      {{ errorMessage }}
+    </div>
+  }
+</div>
