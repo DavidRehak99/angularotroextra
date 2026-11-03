@@ -1,42 +1,50 @@
-import { ChangeDetectorRef } from "@angular/core";
-import { FileModel } from "../../models/filemodel";
-import { FilesService } from "../../services/service.archivo";
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { FilesService } from '../../services/service.archivo';
+import { FileModel } from '../../models/filemodel';
 
-export class ApiFilesComponent {    
-    public fileModel: FileModel = new FileModel('', '');
-    public fileContent: string = '';
-    public mensaje: string = '';
+@Component({
+  selector: 'app-api-files-component',
+  standalone: false,
+  styleUrl: './api-files-component.css',
+  templateUrl: './api-files-component.html',
+})
+export class ApiFilesComponent {
+  public urlFile!: string;
+  public mensaje!: string;
+  @ViewChild("cajafile") cajafile!: ElementRef;
 
-    constructor(
-        private _cdr: ChangeDetectorRef,
-        private _service: FilesService
-    ){}
+  constructor(
+    private _cdr: ChangeDetectorRef,
+    private _service: FilesService
+  ){}
 
-    uploadFile(): void{
-        let file = this.cajafile.nativeElement.files[0];
-        let miPath = this.cajafile.nativeElement.value.split('\\');
+  uploadFile(): void {
+    const file: File = this.cajafile.nativeElement.files[0];
+    if (!file) return;
 
-        let fileName = miPath[2];
-        let reader = new FileReader();
-        reader.onloadend = () => {
-            let buffer : ArrayBuffer;
-            buffer = reader.result as ArrayBuffer;
-            let base64: string;
-            base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-            this.fileModel = new FileModel(fileName, base64);
-            this._service.postfile(file).subscribe(
-                (response) => {
-                   this.mensaje = 'Archivo subido correctamente.';
-                   this.urlFile = response.url;
-                   this._cdr.detectChanges(); 
-                },
-                (error) => {
-                    console.error('Error al subir el archivo:', error);
-                }
-            );
-            
-        }
-        
-        reader.readAsArrayBuffer(file);
-    }
+    // Obtenemos el nombre directamente del objeto File nativo
+    const fileName = file.name;
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const buffer = reader.result as ArrayBuffer;
+      const base64 = btoa(
+        new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+      );
+
+      const fileModel = new FileModel(fileName, base64);
+
+      this._service.postFile(fileModel).subscribe({
+        next: (response) => {
+          this.mensaje = "Fichero subido correctamente";
+          console.log(response);
+          this.urlFile = response.urlFile;
+          this._cdr.detectChanges();
+        },
+        error: (err) => console.error(err)
+      });
+    };
+
+    reader.readAsArrayBuffer(file);
+  }
 }
