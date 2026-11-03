@@ -1,0 +1,15 @@
+<h1>Equipos</h1>
+<div class="d-flex flex-row">
+    @for (team of equipos; track team) {
+        <div class="card" style="width: 20rem; margin: 10px">
+            <img src="{{team.imagen}}" class="card-img-top" alt="..."/>
+            <div class="card-body">
+                <h5 class="card-title">{{team.nombre}}</h5>
+                
+                
+            </div>
+            
+        </div>
+    }
+    </div>
+    <a href="#" class="btn btn-primary">Go somewhere</a>

@@ -10,11 +10,27 @@ import { ApiFilesComponent } from './components/api-files-component/api-files-co
 import { FilesService } from './services/service.archivo';
 import { errorInterceptor } from './interceptors/error-interceptor';
 import { provideToastService } from 'ngx-yet-another-toast-library';
+import { UploadComponent } from './components/subir-component/subir-component';
+import { EquipoComponent } from './components/equipo-component/equipo-component';
+import { ServiceEquipos } from './services/ServiceEquipos';
 
 @NgModule({
-  declarations: [App, MenuComponent, InformesPdfComponent,ApiFilesComponent],
+  declarations: [
+    App,
+    MenuComponent,
+    InformesPdfComponent,
+    ApiFilesComponent,
+    UploadComponent,
+    EquipoComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
-  providers: [provideBrowserGlobalErrorListeners(), provideHttpClient(withInterceptors([errorInterceptor])), FilesService, provideToastService()],
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideHttpClient(withInterceptors([errorInterceptor])),
+    FilesService,
+    provideToastService(),
+    ServiceEquipos
+  ],
   bootstrap: [App],
 })
 export class AppModule {}
